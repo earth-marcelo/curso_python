@@ -8,7 +8,7 @@ print(1234)
 
 # aspas simples
 print('Marcelo Carvalho')
-print('"Marcelo Carvalho"')
+print(1, '"Marcelo Carvalho"')
 
 # Aspas duplas
 print("Marcelo Carvalho")
