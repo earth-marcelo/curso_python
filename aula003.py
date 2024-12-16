@@ -20,7 +20,3 @@ print("Marcelo \"Carvalho\"")
 
 # r 
 print(r"Marcelo \"Carvalho\"")
-
-
-
-
