@@ -11,6 +11,7 @@ df_267 = pd.read_csv("bouguer_erg_267.txt",
 
 df_290 = pd.read_csv("bouguer_erg_290.txt",
                      sep=r"\s+",
+                     header=None,
                      names=["longitude", "latitude", "bouguer_290"])
 
 # Combining

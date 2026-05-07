@@ -1,8 +1,8 @@
 import pandas as pd
 import matplotlib
-matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
+matplotlib.use("TkAgg")
+               
 
 # Reading the files
 df_267 = pd.read_csv("bouguer_erg_267.txt",
@@ -30,32 +30,22 @@ df = pd.DataFrame({
     "elevation"     : df_topo["elevation"]
 })
 
-
 # Filter: keep only ocean (elevation < -200m)
 df_ocean = df[df["elevation"] < -200].reset_index(drop=True)
 
 
-
-# Clustering with KMeans - 3 groups
-kmeans = KMeans(n_clusters=3, random_state=42)
-df_ocean["cluster"] = kmeans.fit_predict(df_ocean[["longitude", "latitude", "bouguer_267", "bouguer_290"]])
-
-print(df_ocean["cluster"].value_counts())
-
-# Cluster map
-colors = {0: "blue", 1: "green", 2: "red"}
+# Scatter plot
 plt.figure(figsize=(10, 8))
-for cluster in [0, 1, 2]:
-    mask = df_ocean["cluster"] == cluster
-    plt.scatter(df_ocean[mask]["longitude"],
-                df_ocean[mask]["latitude"],
-                c=colors[cluster],
-                s=10,
-                label=f"Cluster {cluster}")
 
-plt.xlabel("Longitude")
-plt.ylabel("Latitude")
-plt.title("KMeans clustering - ERG (ocean only)")
-plt.legend()
-plt.savefig("kmeans-erg.png", dpi=300, bbox_inches="tight")
+scatter = plt.scatter(df_ocean["bouguer_267"],
+                      df_ocean["bouguer_290"],
+                      c=df_ocean["elevation"],
+                      cmap="RdBu_r",
+                      s=10)
+
+plt.colorbar(scatter, label="Depth (m)")
+plt.xlabel("Bouguer Anomaly - 2.67 g/cm3")
+plt.ylabel("Bouguer Anomaly - 2.90 g/cm3")
+plt.title("Correlation Bouguer anomaly 2.67 vs 2.90 g/cm3")
+plt.savefig("Correlation_bouguer_267_x_290_map.png", dpi=300, bbox_inches="tight")
 plt.show()

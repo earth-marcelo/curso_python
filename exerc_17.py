@@ -19,7 +19,7 @@ df = pd.DataFrame({
     "bouguer_290"   : df_290["bouguer_290"]  
 })
 
-df["difference"] = df["bouguer_290"] -df["bouguer_267"]
+df["difference"] = df["bouguer_290"] - df["bouguer_267"]
 
 print(df.head())
 print()
