@@ -3,8 +3,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use("TkAgg")
 import seaborn as sns
-from scipy import stats
-import numpy as np
 
 # Reading the files
 df_267 = pd.read_csv("bouguer_erg_267.txt",
@@ -35,42 +33,29 @@ df = pd.DataFrame({
 # Filter: keep only ocean (elevation < -200m)
 df_ocean = df[df["elevation"] < -200].reset_index(drop=True)
 
-x = np.array(df_ocean["bouguer_267"])
-y = np.array(df_ocean["bouguer_290"])
-
-# Run the regressionspell
-results = stats.linregress(x,y)
-
-# Access the results
-print(f"Slope: {results.slope}")
-print(f"Intercept: {results.intercept}")
-print(f"R-squared: {results.rvalue**2}")
+df_ocean["difference"] = df_ocean["bouguer_290"] - df_ocean["bouguer_267"]
 
 
 # Scatter plot
 plt.figure(figsize=(10, 8))
 
-scatter = plt.scatter(df_ocean["bouguer_267"],
-                      df_ocean["bouguer_290"],
-                      c=df_ocean["elevation"],
+scatter = plt.scatter(df_ocean["longitude"],
+                      df_ocean["latitude"],
+                      c=df_ocean["difference"],
                       cmap="RdBu_r",
                       s=10)
 
-slope = results.slope
-intercept = results.intercept
+plt.colorbar(scatter, label="Anomaly (mGal)")
+plt.xlabel("Longitude")
+plt.ylabel("Latitude")
+plt.title("Bouguer anomaly difference (2.90 - 2.67 g/cm³)")
+plt.savefig("Bouguer_anomaly_difference.png", dpi=300, bbox_inches="tight")
+plt.show()
 
-line_y = slope * x + intercept
 
-plt.colorbar(scatter, label="Depth (m)")
-plt.xlabel("Bouguer Anomaly - 2.67 g/cm3")
-plt.ylabel("Bouguer Anomaly - 2.90 g/cm3")
-plt.plot(x, line_y, color='black', label='Trendline')
-plt.title("Correlation Bouguer anomaly 2.67 vs 2.90 g/cm3")
-plt.text(-240, 120, 
-         f"y = {slope:.3f}x + {intercept:.3f}\nR² = {results.rvalue**2:.4f}",
-         fontsize=10,
-         bbox=dict(facecolor='white', edgecolor='black'))
-plt.axhline(0, color='gray', linewidth=0.8, linestyle='--')
-plt.axvline(0, color='gray', linewidth=0.8, linestyle='--')
-plt.savefig("Correlation_bouguer_267_x_290_map.png", dpi=300, bbox_inches="tight")
+# Seaborn histogram
+sns.histplot(df_ocean["difference"], bins=30, color="steelblue")
+plt.xlabel("Anomaly (mGal)")
+plt.ylabel("Count")
+plt.title("Bouguer anomaly difference (2.90 - 2.67 g/cm³)")
 plt.show()

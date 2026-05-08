@@ -74,7 +74,7 @@ ax2.set_xlabel("longitude")
 ax2.set_ylabel("latitude")
 ax2.set_title("Density 2.90 gm/cm3")
 
-plt.suptitle("Bouguer anomalyu comparison - ERG area")
+plt.suptitle("Bouguer anomaly comparison - ERG area")
 plt.tight_layout()
 plt.savefig("bouguer_anomaly_comparison.png", dpi=300, bbox_inches="tight")
 plt.show()
