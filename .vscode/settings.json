@@ -6,6 +6,8 @@
         "colorbar",
         "figsize",
         "suptitle",
+        "topo",
+        "violinplot",
         "xlabel",
         "ylabel"
     ]
