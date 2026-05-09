@@ -43,22 +43,25 @@ df_ocean["cluster"] = kmeans.fit_predict(df_ocean[["longitude", "latitude", "bou
 
 print(df_ocean.groupby("cluster")["elevation"].describe())
 
-# Cluster map
-colors = {0: "blue", 1: "green", 2: "red"}
-plt.figure(figsize=(10, 8))
-for cluster in [0, 1, 2]:
-    mask = df_ocean["cluster"] == cluster
-    mean_267_290 = df_ocean[mask][["bouguer_267", "bouguer_290"]].mean()
-    n = df_ocean[mask].shape[0]
-    plt.scatter(df_ocean[mask]["longitude"],
-                df_ocean[mask]["latitude"],
-                c=colors[cluster],
-                s=10,
-                label=f"Cluster {cluster} | n={n} | 267={mean_267_290['bouguer_267']:.1f} | 290={mean_267_290['bouguer_290']:.1f} mGal")
+
+
+
+# # Cluster map
+# colors = {0: "blue", 1: "green", 2: "red"}
+# plt.figure(figsize=(10, 8))
+# for cluster in [0, 1, 2]:
+#     mask = df_ocean["cluster"] == cluster
+#     mean_267_290 = df_ocean[mask][["bouguer_267", "bouguer_290"]].mean()
+#     n = df_ocean[mask].shape[0]
+#     plt.scatter(df_ocean[mask]["longitude"],
+#                 df_ocean[mask]["latitude"],
+#                 c=colors[cluster],
+#                 s=10,
+#                 label=f"Cluster {cluster} | n={n} | 267={mean_267_290['bouguer_267']:.1f} | 290={mean_267_290['bouguer_290']:.1f} mGal")
     
-plt.xlabel("Longitude")
-plt.ylabel("Latitude")
-plt.title("KMeans clustering - ERG (ocean only)")
-plt.legend()
-plt.savefig("kmeans-erg.png", dpi=300, bbox_inches="tight")
-plt.show()
+# plt.xlabel("Longitude")
+# plt.ylabel("Latitude")
+# plt.title("KMeans clustering - ERG (ocean only)")
+# plt.legend()
+# plt.savefig("kmeans-erg.png", dpi=300, bbox_inches="tight")
+# plt.show()
